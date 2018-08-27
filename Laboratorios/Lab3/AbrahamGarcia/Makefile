@@ -3,26 +3,35 @@ DESTDIR=/usr/local/bin
 CFLAGS=-Wall
 LDFLAGS=-lm
 CC=gcc
-
-
+#objects = muestreo.o procesamiento.o archivos.o
+objects = $(wildcard *.c)
+#el uso de caracteres wildcard; funciones para analizis y sustitucion de cadenas
 all: $(PROYECTO)
 
-muestreo.o: muestreo.c
-	$(CC) -c muestreo.c  $(CFLAGS)
+%.o: %.c
+	$(CC) -c $< $(CFLAGS)
 
-procesamiento.o: procesamiento.c
-	$(CC) -c procesamiento.c $(CFLAGS)
+#muestreo.o: muestreo.c
+#	$(CC) -c muestreo.c  $(CFLAGS)
 
-archivos.o: archivos.c
-	$(CC) -c archivos.c $(CFLAGS)
+#procesamiento.o: procesamiento.c
+#	$(CC) -c procesamiento.c $(CFLAGS)
 
-$(PROYECTO): muestreo.o procesamiento.o archivos.o
-	$(CC) muestreo.o procesamiento.o archivos.o -o $@ $(LDFLAGS)
+#archivos.o: archivos.c
+#	$(CC) -c archivos.c $(CFLAGS)
+
+
+$(PROYECTO): $(objects:.c=.o)
+	$(CC) $^ -o $@ $(LDFLAGS)
+
+#$^ toma toda la lista de dependencias
+#$@ toma el nombre del objetivo
+
 
 .PHONY: clean
 
 clean:
-	rm -f *.o muestreo
+	rm -f *.o $(PROYECTO)
 
 install: all
 	if [ ! -d $(DESTDIR) ] ; then \
