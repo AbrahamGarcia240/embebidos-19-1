@@ -7,6 +7,7 @@
 
 void procesohijo(int np){
 	printf("Soy el proceso hijo %d ejecutado con pid %d\n",np,getpid());
+	while(1);
 	exit(np);
 
 }
