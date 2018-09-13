@@ -53,6 +53,7 @@ void procesoHijo(int * datos, int n, int pipedf[]){
 void procesoPadre(int pipedf[]){
 	pid_t pid_hijo;
 	int  numero, resultado;
+	int* result=(int*)malloc(sizeof(int)*N);
 	register int np;
 	printf("Soy el proceso padre ejecutado con pid %d\n",getpid());
 	close(pipedf[1]);
@@ -62,9 +63,9 @@ void procesoPadre(int pipedf[]){
 		
 		if(numero>>8==3){
 			
-			read(pipedf[0],&resultado,sizeof(int)*N);
+			read(pipedf[0],result,sizeof(int)*N);
 			printf("Termina el proceso %d y el resultado es:\n",pid_hijo );
-			imprimirArreglo(&resultado);
+			imprimirArreglo(result);
 		}
 	
 		else{
