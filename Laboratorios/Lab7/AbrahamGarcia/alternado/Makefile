@@ -1,7 +1,7 @@
 PROYECTO=alternado
 DESTDIR=/usr/local/bin
 CFLAGS=-Wall 
-LDFLAGS=-lm -lpthread
+LDFLAGS=-lm -lpthread 
 CC=gcc
 #objects = muestreo.o procesamiento.o archivos.o
 objects = $(wildcard *.c)

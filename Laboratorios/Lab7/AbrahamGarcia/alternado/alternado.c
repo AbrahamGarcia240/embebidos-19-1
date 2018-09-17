@@ -2,17 +2,79 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <math.h>
 #define NUM_HILOS 4
-#define N 65000
+#define N 256
 
 
 int contador;
 
+float *A;
+float *B,*C;
+float * reservarMemoria( );
+void llenarArreglo( float *datos );
+void imprimirArreglo( float *datos );
 
-int *A,*B,*C;
-int * reservarMemoria( );
-void llenarArreglo( int *datos );
-void imprimirArreglo( int *datos );
+void genera_seno(float x[]){
+    register int i=0;
+    
+ 
+        
+        for (i = 1; i < N; i++)
+        {
+
+            //x[i]=sinf((2*M_PI*i*fn)/fs);
+            x[i]=sinf((2*M_PI*i*10000)/45000);
+            //printf("%d %f\n",i,x[i] );
+        }
+}
+
+void genera_Hamming(float x[]){
+    register int i=0;
+    
+ 
+        
+        for (i = 1; i < N; i++)
+        {
+
+            //x[i]=sinf((2*M_PI*i*fn)/fs);
+            x[i]=0.54-0.46*cosf((2*M_PI*i)/N);
+            //printf("%d %f\n",i,x[i] );
+        }
+}
+
+
+void guarda_datos(float x[], int n){
+    FILE * archivo, *archivo2;
+    register int i;
+    if(n==1){
+        archivo=fopen("seno.dat","w");
+         archivo2=fopen("sin.txt","w");
+    }
+    else if(n==2){
+        archivo=fopen("hamming.dat","w");
+        archivo2=fopen("hamming.txt","w");
+    }
+    
+    else{
+        archivo=fopen("result.dat","w");
+        archivo2=fopen("result.txt","w");
+    }
+    if(!archivo){
+        perror("Error al abrir el archivo");
+        exit(EXIT_FAILURE);
+
+    }
+    fprintf(archivo, "#X #Y\n" );
+    for (i = 0; i < N; i++)
+    {
+        fprintf(archivo2, "%f\n",x[i] );
+        fprintf(archivo, "%f %f  \n",(float)i,x[i] );
+    }
+    fclose(archivo);
+    fclose(archivo2);
+}
+
 
 
 void * funHilo( void * arg){
@@ -38,12 +100,14 @@ int main()
 
 
     A = reservarMemoria();
-    llenarArreglo( A );
+    genera_seno( A );
     imprimirArreglo( A );
+    guarda_datos(A,1);
 
     B = reservarMemoria();
-    llenarArreglo( B );
+    genera_Hamming( B );
     imprimirArreglo( B );
+    guarda_datos(B,2);
 
     C = reservarMemoria();
    
@@ -73,7 +137,7 @@ int main()
     }
 
     imprimirArreglo( C );   
-
+    guarda_datos(C,3);
     free(A);
     free(B);
     free(C);
@@ -82,7 +146,7 @@ int main()
 }
 
 
-void llenarArreglo( int *datos )
+void llenarArreglo( float *datos )
 {
         register int i;
 
@@ -93,11 +157,11 @@ void llenarArreglo( int *datos )
         }
 }
 
-int * reservarMemoria( )
+float * reservarMemoria( )
 {
-        int *mem;
+        float *mem;
 
-        mem = (int *)malloc( sizeof(int) * N  );
+        mem = (float *)malloc( sizeof(int) * N  );
         if( !mem )
         {
                 perror("Error al asignar memoria...\n");
@@ -106,7 +170,7 @@ int * reservarMemoria( )
         return mem;
 }
 
-void imprimirArreglo( int *datos )
+void imprimirArreglo( float *datos )
 {
         register int i;
 
@@ -114,7 +178,7 @@ void imprimirArreglo( int *datos )
         {
                 if( !(i%16) )
                         printf("\n");
-                printf("%5d ", datos[i]);
+                printf("%5f ", datos[i]);
         }
         printf("\n");
 }
