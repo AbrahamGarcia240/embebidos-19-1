@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #define NUM_HILOS 4
-#define N 7200000
+#define N 80000
 
  int *datos;
  int respuesta[3];
@@ -145,10 +145,10 @@ void * funHilo( void * arg){
             break;
         case 2:
             printf("Soy el hilo %d y yo hare el promedio\n",nh);
-             //pthread_mutex_lock(&bloqueo);
+             pthread_mutex_lock(&bloqueo);
             respuesta[nh] = promedioArreglo( datos );
              
-            //pthread_mutex_unlock(&bloqueo);
+            pthread_mutex_unlock(&bloqueo);
             //printf(" promedio %d\n",respuesta[nh] );
 
             pthread_exit((void *) &respuesta[nh]);

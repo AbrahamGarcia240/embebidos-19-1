@@ -24,7 +24,7 @@ void genera_seno(float x[]){
         {
 
             //x[i]=sinf((2*M_PI*i*fn)/fs);
-            x[i]=sinf((2*M_PI*i*10000)/45000);
+            x[i]=sinf((2*M_PI*i*1000)/8000);
             //printf("%d %f\n",i,x[i] );
         }
 }
