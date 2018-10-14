@@ -78,6 +78,49 @@ void *filtroImagen(void * arg)
 
 }
 
+
+void *Gauss(void * arg)
+{
+
+  struct nodito nod= *(struct nodito *)arg;
+
+  unsigned char *imagenGray=nod.imgGray;
+  unsigned char *imagenFiltro=nod.imgFilt;
+  uint32_t width=nod.w;
+  uint32_t height=nod.h;
+
+  
+  register int x, y, xm, ym;
+  int conv2, conv1, indice, indicem;
+  char Gauss[] =
+    {1, 2, 1,
+     2, 4, 2,
+     1, 2, 1};
+  
+  for( y = nod.inicio; y <= nod.final; y++ )
+    for( x = 0; x <= width-DIMASK; x++ )
+    {
+      conv1 = 0;
+      indicem = 0;
+      for( ym = 0; ym < DIMASK; ym++  )
+      {
+        for( xm = 0; xm < DIMASK; xm++ )
+        {
+          indice = ((y+ym)*width + (x+xm));
+          conv1 += imagenGray[indice]*Gauss[indicem++];
+          
+        }
+      }
+      conv1 = conv1 / 16;
+      indice = ((y+1)*width + (x+1));
+      imagenFiltro[indice] = conv1;
+    }
+    
+ 
+  pthread_exit((void*)&nod.nucleo);
+
+}
+
 void brilloImagen( unsigned char* imagenGray, uint32_t width, uint32_t height){
   register int p;
   short int pixel; //2 bytes 

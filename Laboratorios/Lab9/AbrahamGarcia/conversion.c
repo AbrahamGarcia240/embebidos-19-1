@@ -20,7 +20,7 @@ int main(int argc, char const *argv[])
 
 
 	bmpInfoHeader info;
-	unsigned char* imagenRGB, *imagenGRay, *imagenFiltrada;
+	unsigned char* imagenRGB, *imagenGRay, *imagenFiltrada, *imagenFiltrada2;
 	
 	imagenRGB = abrirBMP("calle1.bmp", &info);
 	displayInfo( &info );
@@ -61,15 +61,44 @@ int main(int argc, char const *argv[])
         //printf("Hilo %d terminado\n", *res);
     }
 
+    GraytoRGB( imagenFiltrada	, imagenRGB, info.width, info.height );
+	guardarBMP( "calle1Bordes2.bmp", &info, imagenRGB );
+    imagenFiltrada2 = reservarMemoria(info.width, info.height);
+
+    for (nh = 0; nh < NUM_HILOS; nh++)
+    {
+    
+		nod[nh].imgGray=imagenFiltrada;
+		nod[nh].imgFilt=imagenFiltrada2;
+		nod[nh].w=info.width;
+		nod[nh].h=info.height;
+		nod[nh].inicio=nh*inc;
+		nod[nh].final=((nh*inc)+inc)-1;
+
+
+        nhs[nh]=nh;
+        nod[nh].nucleo=nh;
+        pthread_create( &tids[nh], NULL, Gauss, (void *)&nod[nh] );
+
+    }
+
+    for (nh = 0; nh < NUM_HILOS; nh++)
+    {
+        pthread_join(tids[nh], (void **)&res );
+        //printf("Hilo %d terminado\n", *res);
+    }
+
     //filtroImagen(imagenGRay,imagenFiltrada,info.width, info.height);
 
     ///////////////////////////////////////////////////
 	
 	//fin de procesamiento
-	GraytoRGB( imagenFiltrada	, imagenRGB, info.width, info.height );
-	guardarBMP( "calle1Bordes.bmp", &info, imagenRGB );
+	GraytoRGB( imagenFiltrada2	, imagenRGB, info.width, info.height );
+	guardarBMP( "calle1Bordes2.bmp", &info, imagenRGB );
 	free( imagenRGB );
 	free( imagenGRay );
+	free( imagenFiltrada );
+	free( imagenFiltrada2 );
 	
 	return 0;
 }

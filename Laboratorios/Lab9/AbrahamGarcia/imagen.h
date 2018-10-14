@@ -37,6 +37,7 @@ unsigned char* RGBtoGray(unsigned char* imagenRGB, uint32_t width, uint32_t heig
 void brilloImagen( unsigned char* imagenGray, uint32_t width, uint32_t height);
 //void filtroImagen( unsigned char* imagenGray, unsigned char * imagenFiltro, uint32_t width, uint32_t height);
 void *filtroImagen( void * arg);
+void *Gauss( void * arg);
 unsigned char* reservarMemoria( uint32_t width, uint32_t height);
 
 #endif
