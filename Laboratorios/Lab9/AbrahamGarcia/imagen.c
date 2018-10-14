@@ -6,9 +6,13 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <math.h>
+#include <pthread.h>
 #include "imagen.h"
+#include "nodito.h"
 
 #define DIMASK 3
+
+
 
 unsigned char* reservarMemoria( uint32_t width, uint32_t height){
   unsigned char * imagen = (unsigned char *)malloc( width*height*sizeof(unsigned char) ); 
@@ -19,9 +23,20 @@ unsigned char* reservarMemoria( uint32_t width, uint32_t height){
   return imagen;
 }
 
-void filtroImagen( unsigned char *imagenGray, unsigned char *imagenFiltro,
-     uint32_t width, uint32_t height )
+//void filtroImagen( unsigned char *imagenGray, unsigned char *imagenFiltro,
+//     uint32_t width, uint32_t height )
+
+void *filtroImagen(void * arg)
 {
+
+  struct nodito nod= *(struct nodito *)arg;
+
+  unsigned char *imagenGray=nod.imgGray;
+  unsigned char *imagenFiltro=nod.imgFilt;
+  uint32_t width=nod.w;
+  uint32_t height=nod.h;
+
+  
   register int x, y, xm, ym;
   int conv2, conv1, indice, indicem;
   char GradC[] =
@@ -36,7 +51,7 @@ void filtroImagen( unsigned char *imagenGray, unsigned char *imagenFiltro,
     {1, 0, -1,
      2, 0, -2,
      1, 0, -1};*/
-  for( y = 0; y <= height-DIMASK; y++ )
+  for( y = nod.inicio; y <= nod.final; y++ )
     for( x = 0; x <= width-DIMASK; x++ )
     {
       conv1 = 0;
@@ -57,6 +72,10 @@ void filtroImagen( unsigned char *imagenGray, unsigned char *imagenFiltro,
       indice = ((y+1)*width + (x+1));
       imagenFiltro[indice] = conv1;
     }
+    
+ 
+  pthread_exit((void*)&nod.nucleo);
+
 }
 
 void brilloImagen( unsigned char* imagenGray, uint32_t width, uint32_t height){
