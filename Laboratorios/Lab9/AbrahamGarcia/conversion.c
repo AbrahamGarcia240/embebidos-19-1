@@ -62,7 +62,7 @@ int main(int argc, char const *argv[])
     }
 
     GraytoRGB( imagenFiltrada	, imagenRGB, info.width, info.height );
-	guardarBMP( "calle1Bordes2.bmp", &info, imagenRGB );
+	guardarBMP( "calle1Bordes.bmp", &info, imagenRGB );
     imagenFiltrada2 = reservarMemoria(info.width, info.height);
 
     for (nh = 0; nh < NUM_HILOS; nh++)

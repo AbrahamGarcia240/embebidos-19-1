@@ -1,0 +1,8 @@
+\babel@toc {spanish}{}
+\contentsline {section}{\numberline {1}Introducci\IeC {\'o}n}{2}
+\contentsline {section}{\numberline {2}Estructuras en \textit {imagen.h}}{2}
+\contentsline {section}{\numberline {3}Abrir la imagen}{3}
+\contentsline {section}{\numberline {4}Convertir a escala de grises}{3}
+\contentsline {section}{\numberline {5}Filtrado de detecci\IeC {\'o}n de bordes}{4}
+\contentsline {section}{\numberline {6}Filtrado gaussiano}{5}
+\contentsline {section}{\numberline {7}Convertir de \textit {escala de grises} a color}{5}

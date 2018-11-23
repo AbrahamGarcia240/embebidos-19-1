@@ -51,6 +51,7 @@ void *filtroImagen(void * arg)
     {1, 0, -1,
      2, 0, -2,
      1, 0, -1};*/
+     printf("%d,%d\n",nod.inicio, nod.final );
   for( y = nod.inicio; y <= nod.final; y++ )
     for( x = 0; x <= width-DIMASK; x++ )
     {
