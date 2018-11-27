@@ -43,7 +43,7 @@ public class Mensaje {
 
     @Override
     public String toString() {
-        return "" + X + "," + Y;
+        return "" + X + "," + -1*Y;
     }   
     
 }

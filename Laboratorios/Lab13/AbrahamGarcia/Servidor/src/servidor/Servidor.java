@@ -48,7 +48,7 @@ public class Servidor {
         
       do{
         
-       
+       System.out.println("pido coordenadas");
        Mensaje m=s.recibirPaquete();
        File file = new File("miau.html"); 
           
@@ -66,7 +66,7 @@ public class Servidor {
        String uno="<!DOCTYPE html>\n" +
         "<html>\n" +
         "  <head>\n" +
-        "<meta http-equiv=\"refresh\" content=\"5; URL=file:///home/abraham/Documentos/Sistemas%20Embebidos/embebidos-19-1/Laboratorios/Lab13/AbrahamGarcia/Servidor/miau.html\">"+
+        "<meta http-equiv=\"refresh\" content=\"15; URL=file:///home/abraham/Documentos/Sistemas%20Embebidos/embebidos-19-1/Laboratorios/Lab13/AbrahamGarcia/Servidor/miau.html\">"+
         "    <meta name='viewport' content='initial-scale=1.0, user-scalable=no' />\n" +
         "    <style type='text/css'>\n" +
         "      html { height: 100% }\n" +
